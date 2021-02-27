@@ -1,0 +1,46 @@
+version: "3.7"
+
+services:
+  db:
+    container_name: app-db
+    image: postgres:12-alpine
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_PORT=5432
+      - POSTGRES_HOST=db
+    restart: always
+    volumes:
+      - db-volume:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./src
+    container_name: app_backend
+    environment:
+      - SECRET_KEY=supersecret
+      - DEBUG=True
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_PORT=5432
+      - POSTGRES_HOST=db
+    command: >
+      bash -c "chmod +x wait_for_db.sh && \
+              ./wait_for_db.sh && \
+              python manage.py makemigrations && \
+              python manage.py migrate && \
+              python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./src:/src
+      - static-files:/src/static
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    restart: always
+
+volumes:
+  static-files:
+  db-volume:
