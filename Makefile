@@ -17,3 +17,12 @@ build-dev:
 up-dev:
 	docker-compose run --rm backend python manage.py migrate
 	docker-compose up
+
+backend-bash:
+	docker-compose exec backend bash
+
+shell:
+	docker-compose exec backend bash -c "./manage.py shell_plus --ipython"
+
+format:
+	docker-compose exec backend bash -c "black ."
