@@ -2,3 +2,5 @@ django
 psycopg2-binary
 django-extensions
 black
+ipython
+httpx
