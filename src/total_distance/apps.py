@@ -2,4 +2,4 @@ from django.apps import AppConfig
 
 
 class TotalDistanceConfig(AppConfig):
-    name = 'total_distance'
+    name = "total_distance"
