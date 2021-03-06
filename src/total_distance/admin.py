@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from total_distance.models import ApiRequest, ApiRequestResult
+
+admin.site.register(ApiRequest)
+admin.site.register(ApiRequestResult)

@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   db:
-    container_name: app-db
+    container_name: get-distance-db
     image: postgres:12-alpine
     environment:
       - POSTGRES_DB=postgres
@@ -17,7 +17,7 @@ services:
   backend:
     build:
       context: ./src
-    container_name: app_backend
+    container_name: get-distance-backend
     environment:
       - SECRET_KEY=supersecret
       - DEBUG=True

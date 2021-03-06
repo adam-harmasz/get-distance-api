@@ -9,7 +9,7 @@ DEBUG = os.getenv("DEBUG")
 
 ALLOWED_HOSTS = ["localhost", "0.0.0.0"]
 
-LOCAL_APPS = []
+LOCAL_APPS = ["total_distance.apps.TotalDistanceConfig"]
 
 THIRD_PARTY_APPS = ["django_extensions"]
 

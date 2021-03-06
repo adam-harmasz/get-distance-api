@@ -7,11 +7,14 @@ from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
+from total_distance.forms import RequestForm
+
 
 @csrf_exempt
 def path_distance(request: HttpRequest) -> HttpResponse:
     if request.method == "GET":
-        return render(request, "index.html")
+        form = RequestForm()
+        return render(request, "index.html", context={"form": form})
 
     if request.method == "POST":
         request_id = request.POST["request_id"]
@@ -39,8 +42,10 @@ async def get_distance():
     )
 
     async with httpx.AsyncClient(
-        auth=httpx.BasicAuth(username=os.getenv("API_USERNAME"), password=os.getenv("API_PASSWORD"))
-    ) as session:  # use httpx
+        auth=httpx.BasicAuth(
+            username=os.getenv("API_USERNAME"), password=os.getenv("API_PASSWORD")
+        )
+    ) as session:
         await asyncio.gather(
             *[
                 geo_distance_request(session, coordinate, coordinates[idx + 1])

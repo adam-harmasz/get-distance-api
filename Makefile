@@ -11,10 +11,10 @@ migrations:
 	docker-compose exec backend bash -c "./manage.py makemigrations && \
 	./manage.py migrate"
 
-build-dev:
+build:
 	docker-compose build
 
-up-dev:
+dev:
 	docker-compose run --rm backend python manage.py migrate
 	docker-compose up
 
