@@ -8,11 +8,11 @@ function addNewCoordinateField() {
                     <div id="coordinateField-${currentIndex}" class="coordinateField row">
                       <div class="col-md-6">
                         <label for="longitude" class="text-center">Longtitude</label>
-                        <input type="number" id="longitude" name="longitude" class="form-control" required>
+                        <input type="number" id="longitude" name="longitude" class="form-control longitude" required>
                       </div>
                       <div class="col-md-6">
                         <label for="latitude" class="text-center">Latitude</label>
-                        <input type="number" id="latitude" name="latitude" class="form-control" required>
+                        <input type="number" id="latitude" name="latitude" class="form-control latitude" required>
                       </div>
                     </div>
                     `
@@ -36,15 +36,16 @@ function groupCoordinates() {
     let input_rows = $(".coordinateField");
     let coordinatesArray = []
     input_rows.each(function (index){
-        coordinatesArray.push([$("#longitude").val(), $("#latitude").val()])
-        // console.log($(this).text());
+        coordinatesArray.push(
+            [$(this).find("#longitude").val(), $(this).find("#latitude").val()]
+        )
     })
     return coordinatesArray
 }
 
 
 function sendRequest() {
-    $("#testInput").click(function (event) {
+    $("#sendRequest").click(function (event) {
         fetch(
             "http://localhost:8000/total-distance/", {
                 method: "POST",
@@ -63,7 +64,6 @@ function sendRequest() {
         })
     })
 }
-
 
 
 addNewCoordinateField()
