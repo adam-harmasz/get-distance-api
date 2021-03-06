@@ -4,17 +4,20 @@ import os
 import httpx
 from asgiref.sync import sync_to_async, async_to_sync
 from django.http import HttpResponse, HttpRequest
+from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 
 
 @csrf_exempt
 def path_distance(request: HttpRequest) -> HttpResponse:
+    if request.method == "GET":
+        return render(request, "index.html")
+
     if request.method == "POST":
         request_id = request.POST["request_id"]
         points = request.POST["points"]
         get_distance()
         return HttpResponse(f"{request.POST['request_id']}, {request.POST['points']}")
-    return HttpResponse("ASDF")
 
 
 def get_coordinates(points: str):
