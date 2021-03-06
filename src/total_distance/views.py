@@ -1,4 +1,5 @@
 import asyncio
+import json
 import os
 
 import httpx
@@ -17,11 +18,11 @@ def path_distance(request: HttpRequest) -> HttpResponse:
         return render(request, "index.html", context={"form": form})
 
     if request.method == "POST":
-        request_id = request.POST["request_id"]
-        points = request.POST["points"]
-        get_distance()
-        return HttpResponse(f"{request.POST['request_id']}, {request.POST['points']}")
+        request_json = json.loads(request.body.decode())
+        request_id = request_json["requestId"]
+        coordinates = request_json["coordinates"]
 
+        return HttpResponse(request.POST)
 
 def get_coordinates(points: str):
     return (

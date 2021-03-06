@@ -36,7 +36,7 @@ services:
               python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./src:/src
-      - static-files:/src/static
+      - static-files:/static
     ports:
       - "8000:8000"
     depends_on:
