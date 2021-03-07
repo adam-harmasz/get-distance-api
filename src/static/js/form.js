@@ -7,7 +7,7 @@ function addNewCoordinateField() {
                     `
                     <div id="coordinateField-${currentIndex}" class="coordinateField row">
                       <div class="col-md-6">
-                        <label for="longitude" class="text-center">Longtitude</label>
+                        <label for="longitude" class="text-center">Longitude</label>
                         <input type="number" id="longitude" name="longitude" class="form-control longitude" required>
                       </div>
                       <div class="col-md-6">
@@ -46,12 +46,14 @@ function groupCoordinates() {
 
 function sendRequest() {
     $("#sendRequest").click(function (event) {
+        clearResults();
         fetch(
             "http://localhost:8000/total-distance/", {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
+                    "X-CSRFToken": csrftoken
                 },
                 body: JSON.stringify({
                 "requestId": $("#requestId").val(),
@@ -59,12 +61,10 @@ function sendRequest() {
             }
         ).then(response => {
             response.json().then(function (json){
-                console.log(json.distance);
-                console.log(json.processing_time);
                 resultsModal(json.distance, json.processing_time);
             })
         }).catch(error => {
-            console.log("Error: " + error)
+            document.getElementById("distanceResult").innerText = "Error: " + error;
         })
     })
 }
@@ -73,14 +73,46 @@ function sendRequest() {
 function resultsModal(distance, processing_time) {
     let distanceResultText = "Distance from the given path: " + distance
     let durationResultText = "Calculations have been performed in: " + processing_time +  " seconds"
-    // const distanceResultDiv = $("#distanceResult");
-    // const durationResultDiv = $("#durationResult");
-    console.log(distanceResultText)
-    console.log(durationResultText)
     document.getElementById("distanceResult").innerText = distanceResultText;
     document.getElementById("durationResult").innerText = durationResultText;
 }
 
 
+function clearResults() {
+    document.getElementById("distanceResult").innerText = "Waiting ...";
+    document.getElementById("durationResult").innerText = "";
+}
+
+
+function fillLongitude() {
+    $(".longitude").each(function (index) {
+        this.value = getRandomIntInclusive(-90, 90)
+    })
+}
+
+function fillLatitude() {
+    $(".latitude").each(function (index) {
+        this.value = getRandomIntInclusive(-90, 90);
+    })
+}
+
+
+function fillFieldsWithSampleData() {
+    $("#fillFields").click(function (){
+        fillLongitude();
+        fillLatitude();
+        console.log("dupa");
+    })
+}
+
+
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
 addNewCoordinateField()
 sendRequest()
+fillFieldsWithSampleData()

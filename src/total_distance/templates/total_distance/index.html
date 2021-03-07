@@ -7,10 +7,10 @@
     <title>Total-distance</title>
   </head>
 
-  <body>
+  <body style="background-color: #bbccdd">
     <main role="main" class="container">
-      <div class="colM">
-        <form id="request-form" method="POST">
+      <div>
+        <form id="request-form" method="POST" style="margin-top: 50px; margin-bottom: 30px">
           <div id="coordinateFields" class="form-group">
             <div class="requestIdField">
               <label for="requestId" class="text-center">Request id:</label>
@@ -19,21 +19,21 @@
             <div id="coordinateField-1" class="coordinateField row">
               <div class="col-md-6">
                 <label for="longitude" class="text-center">Longtitude</label>
-                <input type="number" id="longitude" name="longitude" class="form-control" required>
+                <input type="number" id="longitude" name="longitude" class="form-control longitude" required>
               </div>
               <div class="col-md-6">
                 <label for="latitude" class="text-center">Latitude</label>
-                <input type="number" id="latitude" name="latitude" class="form-control" required>
+                <input type="number" id="latitude" name="latitude" class="form-control latitude" required>
               </div>
             </div>
             <div id="coordinateField-2" class="coordinateField row">
               <div class="col-md-6">
                 <label for="longitude" class="text-center">Longtitude</label>
-                <input type="number" id="longitude" name="longitude" class="form-control" required>
+                <input type="number" id="longitude" name="longitude" class="form-control longitude" required>
               </div>
               <div class="col-md-6">
                 <label for="latitude" class="text-center">Latitude</label>
-                <input type="number" id="latitude" name="latitude" class="form-control" required>
+                <input type="number" id="latitude" name="latitude" class="form-control latitude" required>
               </div>
             </div>
           </div>
@@ -41,12 +41,17 @@
       </div>
 
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <button class="btn btn-primary" id="addField">Add new point</button>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-4">
             <button class="btn btn-primary" id="sendRequest" data-toggle="modal" data-target="#resultModal">
               Send Request
+            </button>
+          </div>
+          <div class="col-md-4">
+            <button class="btn btn-primary" id="fillFields">
+              Fill sample data
             </button>
           </div>
         </div>
