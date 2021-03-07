@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-from total_distance.models import ApiRequest, ApiRequestResult
+from total_distance.models import ApiRequest
 
 admin.site.register(ApiRequest)
-admin.site.register(ApiRequestResult)

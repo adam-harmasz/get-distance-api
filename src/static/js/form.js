@@ -35,7 +35,7 @@ function addNewCoordinateField() {
 function groupCoordinates() {
     let input_rows = $(".coordinateField");
     let coordinatesArray = []
-    input_rows.each(function (index){
+    input_rows.each(function (index, element){
         coordinatesArray.push(
             [$(this).find("#longitude").val(), $(this).find("#latitude").val()]
         )
@@ -47,8 +47,9 @@ function groupCoordinates() {
 function sendRequest() {
     $("#sendRequest").click(function (event) {
         clearResults();
-        fetch(
-            "http://localhost:8000/total-distance/", {
+        if (isInputsFilled() === 0) {
+            fetch(
+        "http://localhost:8000/total-distance/", {
                 method: "POST",
                 headers: {
                     'Accept': 'application/json',
@@ -66,6 +67,8 @@ function sendRequest() {
         }).catch(error => {
             document.getElementById("distanceResult").innerText = "Error: " + error;
         })
+        } else
+            alert("Some fields are empty");
     })
 }
 
@@ -85,14 +88,14 @@ function clearResults() {
 
 
 function fillLongitude() {
-    $(".longitude").each(function (index) {
-        this.value = getRandomIntInclusive(-90, 90)
+    $(".longitude").each(function (index, element) {
+        element.value = getRandomIntInclusive(-90, 90)
     })
 }
 
 function fillLatitude() {
-    $(".latitude").each(function (index) {
-        this.value = getRandomIntInclusive(-90, 90);
+    $(".latitude").each(function (index, element) {
+        element.value = getRandomIntInclusive(-90, 90);
     })
 }
 
@@ -101,7 +104,7 @@ function fillFieldsWithSampleData() {
     $("#fillFields").click(function (){
         fillLongitude();
         fillLatitude();
-        console.log("dupa");
+        document.getElementById("requestId").value = "sampleID" + Date.now();
     })
 }
 
@@ -110,6 +113,11 @@ function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+
+function isInputsFilled () {
+    return Array.from($("input")).filter( input => input.value === "").length
 }
 
 
