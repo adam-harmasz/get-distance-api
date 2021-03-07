@@ -25,10 +25,12 @@ def path_distance(request: HttpRequest) -> HttpResponse:
         request_id = request_json["requestId"]
         coordinates = request_json["coordinates"]
         results = get_distance(coordinates=coordinates)
-        print(sum(results))
+        distance = sum(results)
         end = time.perf_counter()
-        print(f"Time elapsed: {end - start}")
-        return HttpResponse(request.POST)
+        processing_time = end - start
+        print(f"Time elapsed: {processing_time}")
+
+        return HttpResponse(json.dumps({"distance": distance, "processing_time": processing_time}))
 
 
 @async_to_sync

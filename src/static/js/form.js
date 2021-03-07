@@ -58,11 +58,27 @@ function sendRequest() {
                 "coordinates": groupCoordinates()})
             }
         ).then(response => {
-            console.log(response);
+            response.json().then(function (json){
+                console.log(json.distance);
+                console.log(json.processing_time);
+                resultsModal(json.distance, json.processing_time);
+            })
         }).catch(error => {
             console.log("Error: " + error)
         })
     })
+}
+
+
+function resultsModal(distance, processing_time) {
+    let distanceResultText = "Distance from the given path: " + distance
+    let durationResultText = "Calculations have been performed in: " + processing_time +  " seconds"
+    // const distanceResultDiv = $("#distanceResult");
+    // const durationResultDiv = $("#durationResult");
+    console.log(distanceResultText)
+    console.log(durationResultText)
+    document.getElementById("distanceResult").innerText = distanceResultText;
+    document.getElementById("durationResult").innerText = durationResultText;
 }
 
 
