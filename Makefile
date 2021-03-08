@@ -26,3 +26,6 @@ shell:
 
 format:
 	docker-compose exec backend bash -c "black ."
+
+createsuperuser:
+	docker-compose exec backend bash -c "./manage.py createsuperuser --noinput"

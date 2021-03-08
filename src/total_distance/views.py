@@ -2,6 +2,7 @@ import datetime as dt
 import json
 
 from asgiref.sync import sync_to_async
+from django.core.exceptions import ValidationError
 from django.http import HttpResponse, HttpRequest
 from django.shortcuts import render
 
@@ -16,12 +17,15 @@ def main(request: HttpRequest) -> HttpResponse:
 async def path_distance(request: HttpRequest) -> HttpResponse:
     if request.method == "POST":
         start = dt.datetime.now()
-        request_id, coordinates = get_data_from_request(request)
-        api_request, _ = await sync_to_async(
-            ApiRequest.objects.get_or_create,
-            thread_sensitive=True,
-        )(request_id=request_id)
-        results = await get_distance(coordinates=coordinates)
+        try:
+            request_id, coordinates = get_data_from_request(request)
+            api_request, _ = await sync_to_async(
+                ApiRequest.objects.get_or_create,
+                thread_sensitive=True,
+            )(request_id=request_id)
+            results = await get_distance(coordinates=coordinates)
+        except ValidationError as error:
+            return HttpResponse(json.dumps({"error": error.message}), status=400)
         distance = sum(results)
         end = dt.datetime.now()
         api_request.calculations_start = start
@@ -36,3 +40,4 @@ async def path_distance(request: HttpRequest) -> HttpResponse:
                 }
             )
         )
+    return HttpResponse(status=404)

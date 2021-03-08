@@ -28,12 +28,16 @@ services:
       - POSTGRES_HOST=db
       - API_USERNAME=Cristoforo
       - API_PASSWORD=Colombo
+      - DJANGO_SUPERUSER_PASSWORD=supersecret
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@admin.com
     command: >
       bash -c "chmod +x wait_for_db.sh && \
               ./wait_for_db.sh && \
               python manage.py makemigrations && \
               python manage.py migrate && \
-              python manage.py runserver 0.0.0.0:8000"
+              python manage.py runserver 0.0.0.0:8000 && \
+              python manage.py collectstatic --noinput"
     volumes:
       - ./src:/src
       - static-files:/static

@@ -19,22 +19,23 @@ def validate_coordinates(coordinates: List[List[str]]) -> List[List[str]]:
 
 def validate_coordinate_type(coordinate: List[str]) -> None:
     try:
-        latitude = float(coordinate[0])
-        longitude = float(coordinate[1])
+        latitude = validate_latitude_range(float(coordinate[0]))
+        longitude = validate_longitude_range(float(coordinate[1]))
     except ValueError:
         raise ValidationError("Improper type of coordinate")
 
 
 def validate_latitude_range(latitude: float) -> float:
-    if -90 > latitude > 90:
-        return latitude
-    raise ValidationError("Latitude needs to be in range -90, 90")
+    if latitude < -90 or latitude > 90:
+        raise ValidationError("Latitude needs to be in range -90, 90")
+    return latitude
 
 
 def validate_longitude_range(longitude: float) -> float:
-    if -180 > longitude > 180:
-        return longitude
-    raise ValidationError("Longitude needs to be in range -180, 180")
+    if longitude < -180 or longitude > 180:
+        raise ValidationError("Longitude needs to be in range -180, 180")
+    return longitude
+
 
 def validate_coordinate_points(coordinate: List[str]) -> None:
     if len(coordinate) != 2:

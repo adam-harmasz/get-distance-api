@@ -60,19 +60,26 @@ function sendRequest() {
                 },
                 body: JSON.stringify({
                 "requestId": $("#requestId").val(),
-                "coordinates": groupCoordinates()})
+                "coordinates": groupCoordinates()
+                })
             }
         ).then(response => {
             if (response.status === 500) {
                 resultModal.modal("hide");
                 throw new Error("Unexpected response from server")
-            } else
+            } if (response.status === 400) {
+                resultModal.modal("hide");
+                response.json().then(function (json){
+                    resultModal.modal("hide");
+                    throw new Error(json.error)
+                }).catch(error => {
+                    alert(error);
+                })} else
                 response.json().then(function (json){
                     resultsModal(json.distance, json.processing_time);
                 })
 
         }).catch(error => {
-            resultModal.modal("hide");
             alert(error)
         })
         } else

@@ -35,8 +35,6 @@ async def geo_distance_request(
         destination=f"{destination[0]},{destination[1]}",
     )
     response = await session.get(url, params=params)
-    response.raise_for_status()
-    print(response)
 
     return validate_geo_api_response(response)
 
