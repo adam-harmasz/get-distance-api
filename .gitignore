@@ -45,7 +45,7 @@ share/python-wheels/
 MANIFEST
 
 # PyInstaller
-#  Usually these files are written by a python script from a template
+#  Usually these files are written by a python script from a templates
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 *.manifest
 *.spec
@@ -172,6 +172,7 @@ dmypy.json
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+.idea/**/dbnavigator.xml
 
 # Gradle
 .idea/**/gradle.xml
@@ -261,7 +262,7 @@ fabric.properties
 # Distribution / packaging
 
 # PyInstaller
-#  Usually these files are written by a python script from a template
+#  Usually these files are written by a python script from a templates
 #  before PyInstaller builds the exe, so as to inject date/other infos into it.
 
 # Installer logs
@@ -315,3 +316,6 @@ fabric.properties
 # profiling data
 
 # End of https://www.toptal.com/developers/gitignore/api/django,pycharm,python
+
+src/static/admin
+src/static/django_extensions
