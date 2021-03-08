@@ -1,14 +1,15 @@
 FROM python:3.8.2
-ENV PYTHONUNBUFFERED=1 \
-	DOCKERIZE_VERSION=v0.6.1
-
-# Installing `dockerize` utility:
-# https://github.com/jwilder/dockerize
-RUN wget "https://github.com/jwilder/dockerize/releases/download/${DOCKERIZE_VERSION}/dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz" \
-&& tar -C /usr/local/bin -xzvf "dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz" \
-&& rm "dockerize-linux-amd64-${DOCKERIZE_VERSION}.tar.gz" && dockerize --version
+ENV PYTHONUNBUFFERED=1
 
 WORKDIR /src
+
+# Update system and install deps
+RUN apt-get update \
+    && apt-get install -yq \
+    netcat \
+    libpq-dev \
+    build-essential \
+    libmagic-dev
 
 COPY requirements.txt /src/
 
