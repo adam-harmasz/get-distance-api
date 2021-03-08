@@ -37,7 +37,7 @@ function groupCoordinates() {
     let coordinatesArray = []
     input_rows.each(function (index, element){
         coordinatesArray.push(
-            [$(this).find("#longitude").val(), $(this).find("#latitude").val()]
+            [$(this).find("#latitude").val(), $(this).find("#longitude").val()]
         )
     })
     return coordinatesArray
@@ -45,9 +45,11 @@ function groupCoordinates() {
 
 
 function sendRequest() {
+    const resultModal = $("#resultModal")
     $("#sendRequest").click(function (event) {
         clearResults();
         if (isInputsFilled() === 0) {
+            resultModal.modal("toggle");
             fetch(
         "http://localhost:8000/total-distance/", {
                 method: "POST",
@@ -61,11 +63,17 @@ function sendRequest() {
                 "coordinates": groupCoordinates()})
             }
         ).then(response => {
-            response.json().then(function (json){
-                resultsModal(json.distance, json.processing_time);
-            })
+            if (response.status === 500) {
+                resultModal.modal("hide");
+                throw new Error("Unexpected response from server")
+            } else
+                response.json().then(function (json){
+                    resultsModal(json.distance, json.processing_time);
+                })
+
         }).catch(error => {
-            document.getElementById("distanceResult").innerText = "Error: " + error;
+            resultModal.modal("hide");
+            alert(error)
         })
         } else
             alert("Some fields are empty");
@@ -74,7 +82,7 @@ function sendRequest() {
 
 
 function resultsModal(distance, processing_time) {
-    let distanceResultText = "Distance from the given path: " + distance
+    let distanceResultText = "Distance from the given path: " + distance + " meters"
     let durationResultText = "Calculations have been performed in: " + processing_time +  " seconds"
     document.getElementById("distanceResult").innerText = distanceResultText;
     document.getElementById("durationResult").innerText = durationResultText;
@@ -89,7 +97,7 @@ function clearResults() {
 
 function fillLongitude() {
     $(".longitude").each(function (index, element) {
-        element.value = getRandomIntInclusive(-90, 90)
+        element.value = getRandomIntInclusive(-180, 180)
     })
 }
 
